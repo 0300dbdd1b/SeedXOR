@@ -120,7 +120,7 @@ def xor_printer(outputs, dict_path=DEFAULT_DICT_PATH):
 		i+=1
 
 def main():
-	if (sys.argv[1] == '--split' and sys.argv[2] == '--deterministic' and len(sys.argv) >= 3):
+	if (sys.argv[1] == '--split' and sys.argv[2] == '--deterministic' and len(sys.argv) >= 4):
 		outputs = []
 		dict_path = DEFAULT_DICT_PATH
 		entropy = mnemonic_to_entropy(sys.argv[3], dict_path)
