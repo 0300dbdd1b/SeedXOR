@@ -1,5 +1,5 @@
+#!/usr/bin/python
 
-from ctypes import BigEndianStructure
 import sys
 from secrets import randbits
 from binascii import a2b_hex
