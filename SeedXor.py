@@ -92,7 +92,9 @@ def seed_xor(seed, seed_nbits, n, deterministic, outputs):
 	if deterministic == False:
 		new_entropy = randbits(seed_nbits)
 	if deterministic == True:
-		new_entropy = int(sha256(a2b_hex(hex(seed)[2:])).hexdigest()[2:int(seed_nbits/4) + 2], 16)
+		hex_seed = hex(seed)[2:]
+		hex_seed = hex_seed if len(hex_seed)%2 == 0 else "0" + hex_seed
+		new_entropy = int(sha256(a2b_hex(hex_seed)).hexdigest()[2:int(seed_nbits/4) + 2], 16)
 	outputs.append(new_entropy)
 	seed =  seed ^ new_entropy
 
