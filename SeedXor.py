@@ -92,9 +92,7 @@ def seed_xor(seed, seed_nbits, n, deterministic, outputs):
 	if deterministic == False:
 		new_entropy = randbits(seed_nbits)
 	if deterministic == True:
-		print(sha256(a2b_hex(hex(seed)[2:])).hexdigest())
 		new_entropy = int(sha256(a2b_hex(hex(seed)[2:])).hexdigest()[2:int(seed_nbits/4) + 2], 16)
-		print(new_entropy)
 	outputs.append(new_entropy)
 	seed =  seed ^ new_entropy
 
@@ -113,7 +111,7 @@ def seed_combining(seeds):
 		return(seeds[0])
 
 def xor_printer(outputs, dict_path=DEFAULT_DICT_PATH):
-	print("XOR Splitted Mnemonics :")
+	print("XOR Backups :")
 	i = 1
 	for output in outputs:
 		print(i, ": ", entropy_to_mnemonic(int(bin(output),2), dict_path),"\n")
