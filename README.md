@@ -6,9 +6,9 @@
 
 ##  Use :
 
---split will split your mnemonic phrase into n XOR backups
---deterministic will split your mnemonic phrase deterministically
---combine will combine n XOR backups to re-form a mnemonic phrase
+--split will split your mnemonic phrase into n XOR backups\
+--deterministic will split your mnemonic phrase deterministically\
+--combine will combine n XOR backups to re-form a mnemonic phrase\
 ```
  python3 SeedXOR.py --split "[your mnemonic]" [number of split]
  python3 SeedXOR.py --split --deterministic "[your mnemonic]" [number of split]
