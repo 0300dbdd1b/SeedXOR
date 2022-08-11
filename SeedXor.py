@@ -1,4 +1,5 @@
 
+from ctypes import BigEndianStructure
 import sys
 from secrets import randbits
 from binascii import a2b_hex
@@ -87,8 +88,13 @@ def entropy_to_mnemonic(entropy, dict_path):
 
 
 
-def seed_xor(seed, seed_nbits, n, outputs):
-	new_entropy = randbits(seed_nbits)
+def seed_xor(seed, seed_nbits, n, deterministic, outputs):
+	if deterministic == False:
+		new_entropy = randbits(seed_nbits)
+	if deterministic == True:
+		print(sha256(a2b_hex(hex(seed)[2:])).hexdigest())
+		new_entropy = int(sha256(a2b_hex(hex(seed)[2:])).hexdigest()[2:int(seed_nbits/4) + 2], 16)
+		print(new_entropy)
 	outputs.append(new_entropy)
 	seed =  seed ^ new_entropy
 
@@ -96,7 +102,7 @@ def seed_xor(seed, seed_nbits, n, outputs):
 		outputs.append(seed)
 		return(outputs)
 	else:
-		return(seed_xor(seed, seed_nbits, n-1, outputs))
+		return(seed_xor(seed, seed_nbits, n-1, deterministic, outputs))
 
 def seed_combining(seeds):
 	seeds[0] = seeds[0] ^ seeds[1]
@@ -114,11 +120,17 @@ def xor_printer(outputs, dict_path=DEFAULT_DICT_PATH):
 		i+=1
 
 def main():
-	if (sys.argv[1] == '--split' and len(sys.argv) >= 3):
+	if (sys.argv[1] == '--split' and sys.argv[2] == '--deterministic' and len(sys.argv) >= 3):
+		outputs = []
+		dict_path = DEFAULT_DICT_PATH
+		entropy = mnemonic_to_entropy(sys.argv[3], dict_path)
+		seed_xor(int(entropy,2), len(entropy), int(sys.argv[4]),True, outputs)
+		xor_printer(outputs, dict_path)
+	elif (sys.argv[1] == '--split' and len(sys.argv) >= 3):
 		outputs = []
 		dict_path = DEFAULT_DICT_PATH
 		entropy = mnemonic_to_entropy(sys.argv[2], dict_path)
-		seed_xor(int(entropy,2), len(entropy), int(sys.argv[3]), outputs)
+		seed_xor(int(entropy,2), len(entropy), int(sys.argv[3]),False, outputs)
 		xor_printer(outputs, dict_path)
 	elif (sys.argv[1] == '--combine' and len(sys.argv) >= 3):
 		i = 2
