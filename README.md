@@ -36,3 +36,4 @@ inmate stick assume lion demise drive foil fat party segment spare salad
 - python3.x
 - secrets : pip3 install secrets
 - binascii : pip3 install binascii
+
